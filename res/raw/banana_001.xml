@@ -1,0 +1,6 @@
+<resources>
+    <id>banana_001</id>
+	<title>Banana</title>
+	<gfx animated="true" x="4" y="2">banana_001.png</gfx>
+	<vertex>circle</vertex>   
+</resources>

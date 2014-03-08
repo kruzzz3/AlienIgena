@@ -1,0 +1,6 @@
+<resources>
+    <id>wall_001</id>
+	<title>Wall</title>
+	<gfx animated="false" x="1" y="1">wall_001.png</gfx>
+	<vertex></vertex>   
+</resources>

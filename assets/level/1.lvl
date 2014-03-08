@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<level width='3200' height='3200' walls="1" bg="background_001">    
+	<entity type='banana' id='banana_001' uniqueid="banana_001_1" bodytype="dynamic" x='100' y='200' sx='2' sy='2' d='0.1' e='0.4' f='0.3' />
+	<entity type='banana' id='banana_001' uniqueid="banana_001_2" bodytype="dynamic" x='100' y='260' sx='2' sy='2' d='0.1' e='0.4' f='0.3' />
+	<entity type='banana' id='banana_001' bodytype="dynamic" x='150' y='320' sx='2' sy='2' d='0.1' e='0.4' f='0.3' />
+	
+	<entity type='asteroid' id='asteroid_002' bodytype="dynamic" x='600' y='300' sx='0.3' sy='0.3' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='550' y='300' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='600' y='350' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='650' y='300' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='600' y='250' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='2550' y='2600' sx='1' sy='1.1' d='0.1' e='0.4' f='0.3' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='2400' y='1200' sx='1.5' sy='1.5' d='0.1' e='0.4' f='0.3' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='2400' y='1400' sx='2' sy='1.8' d='0.1' e='0.4' f='0.3' />
+	
+	<entity type='asteroid' id='asteroid_003' bodytype="dynamic" x='1550' y='600' sx='1' sy='1.1' d='0.1' e='0.4' f='0.3' />
+	<entity type='asteroid' id='asteroid_003' bodytype="dynamic" x='1400' y='200' sx='1.5' sy='1.5' d='0.1' e='0.4' f='0.3' />
+	<entity type='asteroid' id='asteroid_003' bodytype="dynamic" x='1400' y='400' sx='2' sy='1.8' d='0.1' e='0.4' f='0.3' />
+	
+	<entity type='spaceship' id='spaceship_001' bodytype="dynamic" x='100' y='100' sx='0.5' sy='0.5' d='0.3' e='0' f='0.3' />
+	
+	
+	<entity type='sun' id='sun_001' uniqueid="sun_001_1" bodytype="static" x='1600' y='1600' sx='1' sy='1' d='1' e='0.4' f='0.3' />
+	
+	<entity type='planet' id='planet_001' uniqueid="planet_001_1" bodytype="dynamic" x='1900' y='1600' sx='0.5' sy='0.5' d='1' e='0.01' f='0.3' />
+	<entity type='planet' id='planet_002' uniqueid="planet_001_2" bodytype="dynamic" x='2200' y='1600' sx='0.8' sy='0.8' d='1' e='0.01' f='0.3' />
+	<entity type='planet' id='planet_003' uniqueid="planet_001_3" bodytype="dynamic" x='2500' y='1600' sx='0.2' sy='0.2' d='1' e='0.01' f='0.3' />
+	<entity type='planet' id='planet_004' uniqueid="planet_001_4" bodytype="dynamic" x='2700' y='1600' sx='0.7' sy='0.7' d='1' e='0.01' f='0.3' />
+	<entity type='planet' id='planet_001' uniqueid="planet_001_5" bodytype="dynamic" x='3000' y='1600' sx='0.9' sy='0.9' d='1' e='0.01' f='0.3' />
+	<entity type='planet' id='planet_004' uniqueid="planet_001_6" bodytype="dynamic" x='2400' y='1600' sx='0.3' sy='0.3' d='1' e='0.01' f='0.3' />
+	
+	
+	
+	<entity type='disjoint' uniqueid1='banana_001_1' uniqueid2='banana_001_2' />
+	<entity type='revjoint' uniqueid1='sun_001_1' uniqueid2='planet_001_1' />
+	<entity type='revjoint' uniqueid1='sun_001_1' uniqueid2='planet_001_2' />
+	<entity type='revjoint' uniqueid1='sun_001_1' uniqueid2='planet_001_3' />
+	<entity type='revjoint' uniqueid1='sun_001_1' uniqueid2='planet_001_4' />
+	<entity type='revjoint' uniqueid1='sun_001_1' uniqueid2='planet_001_5' />
+	<entity type='revjoint' uniqueid1='sun_001_1' uniqueid2='planet_001_6' />
+</level>

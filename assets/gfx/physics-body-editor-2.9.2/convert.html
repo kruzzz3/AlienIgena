@@ -1,0 +1,183 @@
+<html>
+    <head>
+        <title>Convert</title>
+        <style>
+        #output {
+            width:100%;
+            height:auto;
+        }
+        table {
+           border-collapse: collapse;
+        }
+        table td{
+            min-width:200px;
+            border: solid 1px #000;
+        }
+        </style>
+
+        <script>
+        var inputFormProject = '{"rigidBodies":[{"name":"spaceship_001","imagePath":"../game/spaceship_001.png","origin":{"x":0,"y":0},"polygons":[[{"x":0.29249995946884155,"y":0.27250003814697266},{"x":0.21666666865348816,"y":0.03333330154418945},{"x":0.4974999725818634,"y":0.06749999523162842}],[{"x":0.8125,"y":0.7375000715255737},{"x":0.9166666865348816,"y":0.5999999642372131},{"x":0.9833333492279053,"y":0.800000011920929},{"x":0.9574999213218689,"y":1.3675000667572021},{"x":0.8274999260902405,"y":1.0325000286102295}],[{"x":0.8274999260902405,"y":1.0325000286102295},{"x":0.6075000762939453,"y":0.8425000905990601},{"x":0.692500114440918,"y":0.4725000262260437},{"x":0.8125,"y":0.7375000715255737}],[{"x":0.6075000762939453,"y":0.8425000905990601},{"x":0.5825001001358032,"y":1.2725000381469727},{"x":0.4375000298023224,"y":1.2725000381469727},{"x":0.38749995827674866,"y":0.8425000905990601}],[{"x":0.38749995827674866,"y":0.8425000905990601},{"x":0.7024999856948853,"y":0.27250003814697266},{"x":0.692500114440918,"y":0.4725000262260437},{"x":0.6075000762939453,"y":0.8425000905990601}],[{"x":0.38749995827674866,"y":0.8425000905990601},{"x":0.3024999499320984,"y":0.48249998688697815},{"x":0.29249995946884155,"y":0.27250003814697266},{"x":0.4974999725818634,"y":0.06749999523162842},{"x":0.7833333611488342,"y":0.03333330154418945},{"x":0.7024999856948853,"y":0.27250003814697266}],[{"x":0.38749995827674866,"y":0.8425000905990601},{"x":0.1875,"y":1.0625},{"x":0.16750001907348633,"y":0.7475001215934753},{"x":0.3024999499320984,"y":0.48249998688697815}],[{"x":0.1875,"y":1.0625},{"x":0.05249994993209839,"y":1.372499942779541},{"x":0,"y":0.7833333015441895},{"x":0.06666667014360428,"y":0.5833333134651184},{"x":0.16750001907348633,"y":0.7475001215934753}]],"circles":[],"shapes":[{"type":"POLYGON","vertices":[{"x":0.05249994993209839,"y":1.372499942779541},{"x":0.1875,"y":1.0625},{"x":0.38749995827674866,"y":0.8425000905990601},{"x":0.4375000298023224,"y":1.2725000381469727},{"x":0.5825001001358032,"y":1.2725000381469727},{"x":0.6075000762939453,"y":0.8425000905990601},{"x":0.8274999260902405,"y":1.0325000286102295},{"x":0.9574999213218689,"y":1.3675000667572021},{"x":0.9833333492279053,"y":0.800000011920929},{"x":0.9166666865348816,"y":0.5999999642372131},{"x":0.8125,"y":0.7375000715255737},{"x":0.692500114440918,"y":0.4725000262260437},{"x":0.7024999856948853,"y":0.27250003814697266},{"x":0.7833333611488342,"y":0.03333330154418945},{"x":0.4974999725818634,"y":0.06749999523162842},{"x":0.21666666865348816,"y":0.03333330154418945},{"x":0.29249995946884155,"y":0.27250003814697266},{"x":0.3024999499320984,"y":0.48249998688697815},{"x":0.16750001907348633,"y":0.7475001215934753},{"x":0.06666667014360428,"y":0.5833333134651184},{"x":0,"y":0.7833333015441895}]}]}],"dynamicObjects":[]}';
+
+
+            var response = "<table>";
+            var title = new Array();
+            var indexTitle = 0;
+            function parseInit() {
+                var parseString = inputFormProject;
+                getNames(parseString);
+                var objects = new Array();
+                while (parseString.indexOf('"polygons":') >= 0){
+                    var start = parseString.indexOf('"polygons":');
+                    var end = parseString.indexOf(',"circles"') + 10;
+                    var sub = parseString.substring(start, end);
+                    parseString = parseString.replace(sub,"");
+                    sub = sub.replace('"polygons":',"");
+                    sub = sub.replace(',"circles"',"");
+                    objects.push(sub);
+                }
+                for (var index = 0; index < objects.length; ++index) {
+                    parseObject(objects[index]);
+                }
+
+                response += "</table>";
+                document.getElementById("output").innerHTML = response;
+            }
+
+            function getNames(parseString) {
+                var i = 1;
+                while (xIndexOf('"name":', parseString, i) >= 0) {
+                    var start = xIndexOf('"name":', parseString, i) + 8;
+                    var end = xIndexOf('","imagePath', parseString, i);
+                    var sub = parseString.substring(start, end);
+                    title.push(sub);
+                    i++;
+                }
+            }
+
+            function parseObject(objectsArrayString) {
+                if (objectsArrayString.length > 10) {
+                    
+                    objectsArrayString = objectsArrayString.replace('[[',"");
+                    objectsArrayString = objectsArrayString.replace(']]',"");
+                    var objectsArray = objectsArrayString.split("],[");
+                    var answerString = "[";
+                    for (var index = 0; index < objectsArray.length; ++index) {
+                        var objects = objectsArray[index];
+
+                        var i = 1;
+                        var xValues = new Array();
+                        var yValues = new Array();
+
+                        var biggestFloat = 0;
+                        while (xIndexOf('"x":', objects, i) >= 0) {
+                            var start = xIndexOf('"x":', objects, i) + 4;
+                            var end = xIndexOf(',"y":', objects, i);
+                            var sub = objects.substring(start, end);
+                            var cFloat = parseFloat(sub);
+                            xValues.push(cFloat);
+                            if (cFloat > biggestFloat) {
+                                biggestFloat = cFloat;
+                            }
+                            
+                            i++;
+                        }
+                        i = 1;
+                        while (xIndexOf('"y":', objects, i) >= 0) {
+                            var start = xIndexOf('"y":', objects, i) + 4;
+                            var end = xIndexOf('}', objects, i);
+                            var sub = objects.substring(start, end);
+                            var cFloat = parseFloat(sub);
+                            yValues.push(cFloat);
+                            if (cFloat > biggestFloat) {
+                                biggestFloat = cFloat;
+                            }
+                            
+                            i++;
+                        }
+
+                        if (biggestFloat > 1) {
+                            xValues = reScale(xValues, biggestFloat);
+                            yValues = reScale(yValues, biggestFloat);
+                        }
+
+                        answerString += reFormat(xValues, yValues);
+
+                        if ((index + 1) < objectsArray.length) {
+                            answerString += ",";
+                        }
+
+                    }
+                    answerString += "]";
+
+                }
+                if (answerString != undefined)
+                {
+                    response += "<tr>";
+                        response += "<td>";
+                            response += title[indexTitle];
+                        response += "</td>";
+                        response += "<td>";
+                            response += answerString;
+                        response += "</td>";
+                    response += "</tr>";
+                    indexTitle++;
+                }
+                else {
+                    response += "<tr>";
+                        response += "<td>";
+                            response += title[indexTitle];
+                        response += "</td>";
+                        response += "<td>";
+                            response += "ERROR";
+                        response += "</td>";
+                    response += "</tr>";
+                    indexTitle++;
+                }
+            }
+
+            function reScale(values, biggestFloat) {
+                var scaleBy = 1 / biggestFloat;
+                for (var index = 0; index < values.length; ++index) {
+                    values[index] = values[index] * scaleBy;
+                }
+                return values;
+            }
+
+            function reFormat(xValues, yValues) {
+                var answer = "[";
+                for (var index = 0; index < xValues.length; ++index) {
+                    answer += "{";
+                    answer += '"x":';
+                    answer += (xValues[index]).toFixed(6);
+                    answer += ',"y":';
+                    answer += (yValues[index]).toFixed(6);
+                    answer += "}";
+                    if ((index + 1) < xValues.length) {
+                        answer += ",";
+                    }
+                }
+                answer += "]";
+                return answer;
+            }
+
+
+
+            function printObject(objects) {
+                
+            }
+
+            function xIndexOf(Val, Str, x)  
+            {  
+                if (x <= (Str.split(Val).length - 1)) {  
+                Ot = Str.indexOf(Val);  
+                if (x > 1) { for (var i = 1; i < x; i++) { var Ot = Str.indexOf(Val, Ot + 1) } }  
+                return Ot;  
+                } else { return -1; }  
+            } 
+
+        </script>
+    </head>
+    <body onLoad="parseInit()">
+        <div id="output"></div>
+    </body>
+</html>

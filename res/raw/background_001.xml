@@ -1,0 +1,6 @@
+<resources>
+	<id>background_001</id>
+	<title>Background</title>
+	<gfx animated="false" x="1" y="1">background_001.jpg</gfx>
+	<vertex></vertex>   
+</resources>

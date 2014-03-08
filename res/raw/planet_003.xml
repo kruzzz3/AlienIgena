@@ -1,0 +1,6 @@
+<resources>
+    <id>planet_003</id>
+	<title>Planet</title>
+	<gfx animated="false" x="1" y="1">planet_003.png</gfx>
+	<vertex>circle</vertex>   
+</resources>

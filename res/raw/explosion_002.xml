@@ -1,0 +1,6 @@
+<resources>
+	<id>explosion_002</id>
+	<title>Explosion</title>
+	<gfx animated="true" x="4" y="7">explosion_002.png</gfx>
+	<vertex></vertex>   
+</resources>

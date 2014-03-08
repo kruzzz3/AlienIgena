@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<level width='3200' height='3200' walls="1" bg="background_001">    
+	<entity type='asteroid' id='asteroid_002' bodytype="dynamic" x='600' y='300' sx='0.3' sy='0.3' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='550' y='300' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='600' y='350' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='650' y='300' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+	<entity type='asteroid' id='asteroid_001' bodytype="dynamic" x='600' y='250' sx='0.8' sy='0.8' d='1' e='0' f='0' />
+</level>
