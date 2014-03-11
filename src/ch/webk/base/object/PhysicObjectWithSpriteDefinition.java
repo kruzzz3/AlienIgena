@@ -1,12 +1,13 @@
-package ch.webk.base;
+package ch.webk.base.object;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.Context;
+import ch.webk.base.Logger;
 import ch.webkch.spacefighter.R;
 
-public class ObjectDefinitions{
+public class PhysicObjectWithSpriteDefinition{
 	
 	private static final String TAG = "ObjectsLoader";
 	
@@ -35,6 +36,11 @@ public class ObjectDefinitions{
 		addToList(context.getResources().openRawResource(R.raw.spaceship_002));
 		// Sun
 		addToList(context.getResources().openRawResource(R.raw.sun_001));
+		// Info
+		addToList(context.getResources().openRawResource(R.raw.livingpoints));
+		addToList(context.getResources().openRawResource(R.raw.shieldpoints));
+		// Objectparts
+		addToList(context.getResources().openRawResource(R.raw.shield_001));
 		// Explosion
 		addToList(context.getResources().openRawResource(R.raw.explosion_001));
 		addToList(context.getResources().openRawResource(R.raw.explosion_002));

@@ -1,8 +1,11 @@
 package ch.webk.base.object;
 
-import org.andengine.opengl.texture.region.ITiledTextureRegion;
+import java.util.ArrayList;
 
-import ch.webk.base.ResourcesManager;
+import org.andengine.entity.sprite.Sprite;
+
+import ch.webk.base.Logger;
+import ch.webk.base.manager.system.ManagerResources;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -11,8 +14,9 @@ public abstract class PhysicObjectWithSpriteAnimated  extends PhysicObjectWithSp
 	
 	private String id;
 	
-	public PhysicObjectWithSpriteAnimated(String id, float x, float y, FixtureDef fixtureDef, BodyType bodyType, ITiledTextureRegion region, float sx, float sy) {
-		super(x, y, fixtureDef, bodyType, ResourcesManager.getInstance().objectsVertex.get(id), region, sy, sy);
+	public PhysicObjectWithSpriteAnimated(String id, float x, float y, FixtureDef fixtureDef, BodyType bodyType, float sx, float sy) {
+		super(x, y, fixtureDef, bodyType, ManagerResources.getInstance().objectsVertex.get(id), ManagerResources.getInstance().animatedObjects.get(id), sy, sy);
+		Logger.i("PhysicObjectWithSpriteAnimated", "PhysicObjectWithSpriteAnimated");
 		this.id = id;
 	}
 	
@@ -20,8 +24,12 @@ public abstract class PhysicObjectWithSpriteAnimated  extends PhysicObjectWithSp
 		return id;
 	}
     
-    public void onManageUpdate() {
-    	// DO NOTHING
-    }
-
+	public void dispose(ArrayList<Sprite> spriteArray) {
+		if (spriteArray == null) {
+			spriteArray = new ArrayList<Sprite>();
+		}
+		spriteArray.add(getAnimatedSprite());
+		disposeRest(spriteArray);
+	}
+	 
 }

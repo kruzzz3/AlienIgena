@@ -1,4 +1,4 @@
-package ch.webk.base;
+package ch.webk.activity;
 
 import java.io.IOException;
 
@@ -16,6 +16,11 @@ import org.andengine.input.touch.controller.MultiTouchController;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.view.KeyEvent;
+import ch.webk.base.Logger;
+import ch.webk.base.manager.ManagerObject;
+import ch.webk.base.manager.system.ManagerResources;
+import ch.webk.base.object.PhysicObjectWithSpriteDefinition;
+import ch.webk.base.object.PhysicObjectWithSpriteLoader;
 import ch.webk.scene.SceneManager;
 
 public class GameActivity extends BaseGameActivity {
@@ -27,14 +32,14 @@ public class GameActivity extends BaseGameActivity {
     	Logger.i(TAG,"onCreateEngine");
     	Engine e = new LimitedFPSEngine(pEngineOptions, 40);
         e.setTouchController(new MultiTouchController());
-        ObjectManager.setEngine(e);
+        ManagerObject.setEngine(e);
         return e;
     }
 
     public EngineOptions onCreateEngineOptions() {
     	Logger.i(TAG,"onCreateEngineOptions");
-    	ObjectManager.setCamera(new ZoomCamera(0, 0, 800, 480));
-        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(800, 480), ObjectManager.getCamera());
+    	ManagerObject.setCamera(new ZoomCamera(0, 0, 800, 480));
+        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(800, 480), ManagerObject.getCamera());
         engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
         engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
         return engineOptions;
@@ -42,9 +47,9 @@ public class GameActivity extends BaseGameActivity {
 
     public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback) throws IOException {
     	Logger.i(TAG,"onCreateResources");
-        ResourcesManager.prepareManager(this, getVertexBufferObjectManager());
-        ObjectDefinitions.init(this);
-        ObjectLoader.init(this);
+        ManagerResources.prepareManager(this, getVertexBufferObjectManager());
+        PhysicObjectWithSpriteDefinition.init(this);
+        PhysicObjectWithSpriteLoader.init(this);
         pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
 

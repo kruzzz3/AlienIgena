@@ -1,7 +1,6 @@
 package ch.webk.base;
 
 import java.io.IOException;
-import java.util.Random;
 
 import org.andengine.entity.IEntity;
 import org.andengine.entity.sprite.Sprite;
@@ -13,6 +12,9 @@ import org.andengine.util.level.simple.SimpleLevelEntityLoaderData;
 import org.andengine.util.level.simple.SimpleLevelLoader;
 import org.xml.sax.Attributes;
 
+import ch.webk.base.factory.CustomJointFactory;
+import ch.webk.base.manager.ManagerObject;
+import ch.webk.base.manager.system.ManagerResources;
 import ch.webk.base.object.PhysicObjectWithSprite;
 import ch.webk.objects.Asteroid;
 import ch.webk.objects.Banana;
@@ -20,11 +22,8 @@ import ch.webk.objects.Planet;
 import ch.webk.objects.Spaceship;
 import ch.webk.objects.Sun;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 public class LevelLoader {
 
@@ -53,32 +52,32 @@ public class LevelLoader {
 	
 	public static void loadLevel(int levelID) {
     	Logger.i(TAG,"loadLevel | levelID="+levelID);
-        final SimpleLevelLoader levelLoader = new SimpleLevelLoader(ResourcesManager.getInstance().vbom);
+        final SimpleLevelLoader levelLoader = new SimpleLevelLoader(ManagerResources.getInstance().vbom);
         levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderData>(LevelConstants.TAG_LEVEL) {
 			@Override
 			public IEntity onLoadEntity(final String pEntityName, final IEntity pParent, final Attributes pAttributes, final SimpleLevelEntityLoaderData pEntityLoaderData) throws IOException {
-				Logger.i(TAG,"loadLevel | onLoadEntity | Screen 1");
+				Logger.i(TAG,"loadLevel | onLoadEntity | Screen");
 				int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
 				int walls = SAXUtils.getIntAttributeOrThrow(pAttributes, "walls");
 				String bgId = SAXUtils.getAttributeOrThrow(pAttributes, "bg");
 				
-				ObjectManager.getCamera().setBounds(0, 0, width, height); // here we set camera bounds
-				ObjectManager.getCamera().setBoundsEnabled(true);
-                ObjectManager.getCamera().setZoomFactor(1.5f);
+				ManagerObject.getCamera().setBounds(0, 0, width, height); // here we set camera bounds
+				ManagerObject.getCamera().setBoundsEnabled(true);
+                ManagerObject.getCamera().setZoomFactor(1.5f);
                 
-                Sprite bg = new Sprite(width / 2, height / 2, ResourcesManager.getInstance().staticObjects.get(bgId), ResourcesManager.getInstance().vbom);
+                Sprite bg = new Sprite(width / 2, height / 2, ManagerResources.getInstance().staticObjects.get(bgId), ManagerResources.getInstance().vbom);
                 float sX = width / bg.getWidth();
                 float sY = height / bg.getHeight();
                 bg.setScale(sX, sY);
-                ObjectManager.getGameScene().attachChild(bg);
+                ManagerObject.getGameScene().attachChild(bg);
                 if (walls == 1) {
-                	PhysicsFactory.createLineBody(ObjectManager.getPhysicsWorld(), 0, 0, 0, height, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
-                	PhysicsFactory.createLineBody(ObjectManager.getPhysicsWorld(), 0, height, width, height, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
-                	PhysicsFactory.createLineBody(ObjectManager.getPhysicsWorld(), width, height, width, 0, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
-                	PhysicsFactory.createLineBody(ObjectManager.getPhysicsWorld(), width, 0, 0, 0, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
+                	PhysicsFactory.createLineBody(ManagerObject.getPhysicsWorld(), 0, 0, 0, height, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
+                	PhysicsFactory.createLineBody(ManagerObject.getPhysicsWorld(), 0, height, width, height, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
+                	PhysicsFactory.createLineBody(ManagerObject.getPhysicsWorld(), width, height, width, 0, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
+                	PhysicsFactory.createLineBody(ManagerObject.getPhysicsWorld(), width, 0, 0, 0, PhysicsFactory.createFixtureDef(1, 0, 1)).setUserData("wall");
                 }
-                return ObjectManager.getGameScene();
+                return ManagerObject.getGameScene();
 			}
         });
         levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderData>(TAG_ENTITY) {
@@ -113,53 +112,39 @@ public class LevelLoader {
                 
                 PhysicObjectWithSprite levelObject = null;
                 if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_ASTEROID)) {
-                	levelObject = new Asteroid(id, x, y, FIXTURE_DEF, bodyType, ResourcesManager.getInstance().staticObjects.get(id), sx, sy);
+                	levelObject = new Asteroid(id, x, y, FIXTURE_DEF, bodyType, sx, sy);
                 } else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BANANA)) {
-                	levelObject = new Banana(id, x, y, FIXTURE_DEF, bodyType, ResourcesManager.getInstance().animatedObjects.get(id), sx, sy);
+                	levelObject = new Banana(id, x, y, FIXTURE_DEF, bodyType, sx, sy);
                 } else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_SUN)) {
-                	levelObject = new Sun(id, x, y, FIXTURE_DEF, bodyType, ResourcesManager.getInstance().staticObjects.get(id), sx, sy);
+                	Logger.i(TAG,"loadLevel | onLoadEntity | Objects | Sun");
+                	levelObject = new Sun(id, x, y, FIXTURE_DEF, bodyType, sx, sy);
                 } else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_SPACESHIP)) {
-                	levelObject = new Spaceship(id, x, y, FIXTURE_DEF, bodyType, ResourcesManager.getInstance().staticObjects.get(id), sx, sy);
+                	Logger.i(TAG,"loadLevel | onLoadEntity | Objects | Spaceship");
+                	levelObject = new Spaceship(id, x, y, FIXTURE_DEF, bodyType, sx, sy);
                 } else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLANET)){
-                	levelObject = new Planet(id, x, y, FIXTURE_DEF, bodyType, ResourcesManager.getInstance().staticObjects.get(id), sx, sy);
+                	Logger.i(TAG,"loadLevel | onLoadEntity | Objects | Planet");
+                	levelObject = new Planet(id, x, y, FIXTURE_DEF, bodyType, sx, sy);
                 } else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_DISJOINT)){
+                	Logger.i(TAG,"loadLevel | onLoadEntity | Objects | DisJoint");
                 	String uniqueid1 = SAXUtils.getAttribute(pAttributes, "uniqueid1", null);
                 	String uniqueid2 = SAXUtils.getAttribute(pAttributes, "uniqueid2", null);
-                	DistanceJointDef disJointDef = new DistanceJointDef();
-                	Body b1 = ResourcesManager.getInstance().objectBody.get(uniqueid1);
-                	Body b2 = ResourcesManager.getInstance().objectBody.get(uniqueid2);
-                	disJointDef.initialize(b1, b2, b1.getWorldCenter(), b2.getWorldCenter());
-                	disJointDef.dampingRatio = 0;
-                	ObjectManager.getPhysicsWorld().createJoint(disJointDef);
+                	CustomJointFactory.createDisJoint(uniqueid1, uniqueid2, 0, 0, 0);
                 } else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_REVJOINT)) {
+                	Logger.i(TAG,"loadLevel | onLoadEntity | Objects | RevJoint");
                 	String uniqueid1 = SAXUtils.getAttribute(pAttributes, "uniqueid1", null);
                 	String uniqueid2 = SAXUtils.getAttribute(pAttributes, "uniqueid2", null);
-                	RevoluteJointDef revJointDef = new RevoluteJointDef();
-                	Body b1 = ResourcesManager.getInstance().objectBody.get(uniqueid1);
-                	Body b2 = ResourcesManager.getInstance().objectBody.get(uniqueid2);
-                	revJointDef.initialize(b1, b2, b1.getWorldCenter());
-                	revJointDef.maxMotorTorque = 10000.0f; 
-                	float speed = new Random().nextFloat();
-                	if (speed <= 0.01f) {speed = 0.01f;}
-                	if (speed >= 0.5f) {speed = 0.5f;}
-                	revJointDef.motorSpeed = speed;
-                	revJointDef.enableMotor = true; 
-                	revJointDef.enableLimit=false;
-                	ObjectManager.getPhysicsWorld().createJoint(revJointDef);
-                } else {
-                    throw new IllegalArgumentException();
-                }                
+                	CustomJointFactory.createRevJointLimitless(uniqueid1, uniqueid2, 0, 0, true);
+                }             
                 if (levelObject != null) {
                 	if (uniqueid != null && levelObject.getBody() != null) {
-                		ResourcesManager.getInstance().objectBody.put(uniqueid, levelObject.getBody());
+                		ManagerResources.getInstance().objectBody.put(uniqueid, levelObject.getBody());
                 	}
                 	levelObject.getSprite().setCullingEnabled(true);
-                	return levelObject.getSprite();
                 }
                 return null;
             }
         });
-        levelLoader.loadLevelFromAsset(ResourcesManager.getInstance().activity.getAssets(), "level/" + levelID + ".lvl");
+        levelLoader.loadLevelFromAsset(ManagerResources.getInstance().activity.getAssets(), "level/" + levelID + ".lvl");
     }
 
 }

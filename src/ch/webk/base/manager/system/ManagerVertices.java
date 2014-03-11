@@ -1,4 +1,4 @@
-package ch.webk.base;
+package ch.webk.base.manager.system;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class VerticesManager {
+public class ManagerVertices {
 
 	public static float CENTER = 0.5f;
 	

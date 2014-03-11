@@ -1,4 +1,4 @@
-package ch.webk.base;
+package ch.webk.base.object;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,10 +7,13 @@ import java.io.InputStream;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import ch.webk.base.Logger;
+import ch.webk.base.manager.system.ManagerResources;
+
 import android.content.Context;
 import android.util.Xml;
 
-public class ObjectLoader {
+public class PhysicObjectWithSpriteLoader {
 	
 	private static final String TAG = "ObjectsLoader";
 	
@@ -19,8 +22,8 @@ public class ObjectLoader {
 	
 	public static void init(Context context) {
 		Logger.i(TAG,"init");
-		ResourcesManager.getInstance().initGameTextures();
-		for (InputStream objectDefinition : ObjectDefinitions.objectDefinitions) {
+		ManagerResources.getInstance().initGameTextures();
+		for (InputStream objectDefinition : PhysicObjectWithSpriteDefinition.objectDefinitions) {
 			try {
 	            XmlPullParser parser = Xml.newPullParser();
 	            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -59,7 +62,7 @@ public class ObjectLoader {
 	                }
 	            }
 	            Logger.i(TAG,"init | id="+id+", title="+title+", gfx="+gfx);
-                ResourcesManager.getInstance().addGameTextures(id, title, gfx, animated, x, y, vertex);
+                ManagerResources.getInstance().addGameTextures(id, title, gfx, animated, x, y, vertex);
 	        } catch (Exception e) {
 				Logger.e(TAG,"init | e="+e);
 			} finally {
@@ -67,7 +70,7 @@ public class ObjectLoader {
 	        	try {objectDefinition.close();} catch (IOException e) {Logger.e(TAG,"init | finally | e="+e);}
 	        }
 		}
-		ResourcesManager.getInstance().finalizeGameTextures();
+		ManagerResources.getInstance().finalizeGameTextures();
 	}
 	
 	private static String readText(XmlPullParser parser) throws IOException, XmlPullParserException {

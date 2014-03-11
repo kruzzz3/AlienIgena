@@ -1,4 +1,4 @@
-package ch.webk.base;
+package ch.webk.base.manager.system;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +19,16 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.graphics.Color;
 
+import ch.webk.activity.GameActivity;
+import ch.webk.base.Logger;
+
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class ResourcesManager {
+public class ManagerResources {
 
-	private static final String TAG = "SceneManager";
+	private static final String TAG = "ManagerResources";
 	
-    private static final ResourcesManager INSTANCE = new ResourcesManager();
+    private static final ManagerResources INSTANCE = new ManagerResources();
 
     public GameActivity activity;
     public VertexBufferObjectManager vbom;
@@ -172,7 +175,7 @@ public class ResourcesManager {
     // GETTERS AND SETTERS
     //---------------------------------------------
 
-    public static ResourcesManager getInstance() {
+    public static ManagerResources getInstance() {
         return INSTANCE;
     }
     

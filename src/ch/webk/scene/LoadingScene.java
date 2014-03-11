@@ -4,7 +4,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.util.adt.color.Color;
 
-import ch.webk.base.ResourcesManager;
+import ch.webk.base.manager.system.ManagerResources;
 import ch.webk.scene.SceneManager.SceneType;
 
 public class LoadingScene extends BaseScene {
@@ -12,7 +12,7 @@ public class LoadingScene extends BaseScene {
 	@Override
 	public void createScene() {
 	    setBackground(new Background(Color.BLACK));
-	    attachChild(new Text(400, 240, ResourcesManager.getInstance().fontBig, "Wird geladen...", ResourcesManager.getInstance().vbom));
+	    attachChild(new Text(400, 240, ManagerResources.getInstance().fontBig, "Wird geladen...", ManagerResources.getInstance().vbom));
 	}
 	
 	@Override

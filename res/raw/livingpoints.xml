@@ -1,0 +1,6 @@
+<resources>
+	<id>livingpoints</id>
+	<title>Livingpoints</title>
+	<gfx animated="true" x="1" y="11">livingpoints.png</gfx>
+	<vertex></vertex>   
+</resources>

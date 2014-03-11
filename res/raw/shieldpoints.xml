@@ -1,0 +1,6 @@
+<resources>
+	<id>shieldpoints</id>
+	<title>Shiledpoints</title>
+	<gfx animated="true" x="1" y="11">shieldpoints.png</gfx>
+	<vertex></vertex>   
+</resources>

@@ -9,8 +9,8 @@ import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
 
-import ch.webk.base.ObjectManager;
-import ch.webk.base.ResourcesManager;
+import ch.webk.base.manager.ManagerObject;
+import ch.webk.base.manager.system.ManagerResources;
 import ch.webk.scene.SceneManager.SceneType;
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
@@ -34,7 +34,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
     }
 
     private void createBackground() {
-        attachChild(new Sprite(400, 240, ResourcesManager.getInstance().menu_background_region, ResourcesManager.getInstance().vbom) {
+        attachChild(new Sprite(400, 240, ManagerResources.getInstance().menu_background_region, ManagerResources.getInstance().vbom) {
             @Override
             protected void preDraw(GLState pGLState, Camera pCamera)
             {
@@ -45,9 +45,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
     }
 
     private void createMenuChildScene() {
-        menuChildScene = new MenuScene(ObjectManager.getCamera());
+        menuChildScene = new MenuScene(ManagerObject.getCamera());
         menuChildScene.setPosition(0, 0);
-        final IMenuItem startMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_START, ResourcesManager.getInstance().start_region, ResourcesManager.getInstance().vbom), 1.1f, 1);
+        final IMenuItem startMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_START, ManagerResources.getInstance().start_region, ManagerResources.getInstance().vbom), 1.1f, 1);
         menuChildScene.addMenuItem(startMenuItem);
         menuChildScene.buildAnimations();
         menuChildScene.setBackgroundEnabled(false);

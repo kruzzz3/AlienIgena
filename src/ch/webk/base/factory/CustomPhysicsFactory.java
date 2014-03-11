@@ -1,4 +1,4 @@
-package ch.webk.custom.factories;
+package ch.webk.base.factory;
 
 import org.andengine.entity.shape.IShape;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
@@ -20,11 +20,11 @@ public class CustomPhysicsFactory {
 		bodyDef.type = pBodyType;
 
 		final float[] sceneCenterCoordinates = pIShape.getSceneCenterCoordinates();
-		bodyDef.position.x = sceneCenterCoordinates[Constants.VERTEX_INDEX_X] / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-		bodyDef.position.y = sceneCenterCoordinates[Constants.VERTEX_INDEX_Y] / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
+		bodyDef.position.x = CustomMathFactory.toBox2dValue(sceneCenterCoordinates[Constants.VERTEX_INDEX_X]);
+		bodyDef.position.y = CustomMathFactory.toBox2dValue(sceneCenterCoordinates[Constants.VERTEX_INDEX_Y]);
 
 		final Body body = pPhysicsWorld.createBody(bodyDef);
-
+		
 		PolygonShape polyShape = new PolygonShape();
 		pFixtureDef.shape = polyShape;
 
@@ -43,9 +43,9 @@ public class CustomPhysicsFactory {
 		bodyDef.type = pBodyType;
 
 		final float[] sceneCenterCoordinates = pIShape.getSceneCenterCoordinates();
-		bodyDef.position.x = sceneCenterCoordinates[Constants.VERTEX_INDEX_X] / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-		bodyDef.position.y = sceneCenterCoordinates[Constants.VERTEX_INDEX_Y] / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-
+		bodyDef.position.x = CustomMathFactory.toBox2dValue(sceneCenterCoordinates[Constants.VERTEX_INDEX_X]);
+		bodyDef.position.y = CustomMathFactory.toBox2dValue(sceneCenterCoordinates[Constants.VERTEX_INDEX_Y]);
+		
 		final Body body = pPhysicsWorld.createBody(bodyDef);
 
 		CircleShape circleShape = new CircleShape();
@@ -70,9 +70,9 @@ public class CustomPhysicsFactory {
 		bodyDef.type = pBodyType;
 
 		final float[] sceneCenterCoordinates = pIShape.getSceneCenterCoordinates();
-		bodyDef.position.x = sceneCenterCoordinates[Constants.VERTEX_INDEX_X] / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-		bodyDef.position.y = sceneCenterCoordinates[Constants.VERTEX_INDEX_Y] / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-
+		bodyDef.position.x = CustomMathFactory.toBox2dValue(sceneCenterCoordinates[Constants.VERTEX_INDEX_X]);
+		bodyDef.position.y = CustomMathFactory.toBox2dValue(sceneCenterCoordinates[Constants.VERTEX_INDEX_Y]);
+		
 		final Body body = pPhysicsWorld.createBody(bodyDef);
 		
 		PolygonShape boxShape = new PolygonShape();

@@ -5,8 +5,8 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import ch.webk.base.Logger;
-import ch.webk.base.ObjectManager;
-import ch.webk.base.ResourcesManager;
+import ch.webk.base.manager.ManagerObject;
+import ch.webk.base.manager.system.ManagerResources;
 
 public class SceneManager {
 	
@@ -33,6 +33,7 @@ public class SceneManager {
         currentScene = scene;
         currentSceneType = scene.getSceneType();
         currentScene.resetCamera();
+        ManagerObject.getEngine().setScene(scene);
     }
 
     public void setScene(SceneType sceneType) {
@@ -55,53 +56,48 @@ public class SceneManager {
     }
 
     public void createSplashScene(OnCreateSceneCallback pOnCreateSceneCallback) {
-    	ResourcesManager.getInstance().loadSplashScreen();
+    	ManagerResources.getInstance().loadSplashScreen();
         splashScene = new SplashScene();
         currentScene = splashScene;
         pOnCreateSceneCallback.onCreateSceneFinished(splashScene);
     }
 
     private void disposeSplashScene() {
-    	ResourcesManager.getInstance().unloadSplashScreen();
+    	ManagerResources.getInstance().unloadSplashScreen();
         splashScene.disposeScene();
         splashScene = null;
     }
 
     public void createMenuScene() {
-    	ResourcesManager.getInstance().loadMenuResources();
+    	ManagerResources.getInstance().loadMenuResources();
         menuScene = new MainMenuScene();
         loadingScene = new LoadingScene();
-        ObjectManager.setScene(menuScene);
-        SceneManager.getInstance().setScene(ObjectManager.getScene());
+        SceneManager.getInstance().setScene(menuScene);
         disposeSplashScene();
     }
     
     public void loadMenuScene() {
-    	ObjectManager.setScene(loadingScene);
-        setScene(ObjectManager.getScene());
+        setScene(loadingScene);
         gameScene.disposeScene();
-        ResourcesManager.getInstance().unloadGameTextures();
-        ObjectManager.getEngine().registerUpdateHandler(new TimerHandler(1f, new ITimerCallback() {
+        ManagerResources.getInstance().unloadGameTextures();
+        ManagerObject.getEngine().registerUpdateHandler(new TimerHandler(1f, new ITimerCallback() {
             public void onTimePassed(final TimerHandler pTimerHandler) {
-            	ObjectManager.getEngine().unregisterUpdateHandler(pTimerHandler);
-                ResourcesManager.getInstance().loadMenuTextures();
-                ObjectManager.setScene(menuScene);
-                setScene(ObjectManager.getScene());
+            	ManagerObject.getEngine().unregisterUpdateHandler(pTimerHandler);
+                ManagerResources.getInstance().loadMenuTextures();
+                setScene(menuScene);
             }
         }));
     }
 
     public void loadGameScene() {
-    	ObjectManager.setScene(loadingScene);
-        setScene(ObjectManager.getScene());
-        ResourcesManager.getInstance().unloadMenuTextures();
-        ObjectManager.getEngine().registerUpdateHandler(new TimerHandler(1f, new ITimerCallback() {
+        setScene(loadingScene);
+        ManagerResources.getInstance().unloadMenuTextures();
+        ManagerObject.getEngine().registerUpdateHandler(new TimerHandler(1f, new ITimerCallback() {
             public void onTimePassed(final TimerHandler pTimerHandler) {
-            	ObjectManager.getEngine().unregisterUpdateHandler(pTimerHandler);
-                ResourcesManager.getInstance().loadGameTextures();
+            	ManagerObject.getEngine().unregisterUpdateHandler(pTimerHandler);
+                ManagerResources.getInstance().loadGameTextures();
                 gameScene = new GameScene();
-                ObjectManager.setScene(gameScene);
-                setScene(ObjectManager.getScene());
+                setScene(gameScene);
             }
         }));
     }

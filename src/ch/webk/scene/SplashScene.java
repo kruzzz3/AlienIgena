@@ -4,7 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
 
-import ch.webk.base.ResourcesManager;
+import ch.webk.base.manager.system.ManagerResources;
 import ch.webk.scene.SceneManager.SceneType;
 
 public class SplashScene extends BaseScene {
@@ -13,7 +13,7 @@ public class SplashScene extends BaseScene {
 
     @Override
     public void createScene() {
-        splash = new Sprite(0, 0, ResourcesManager.getInstance().splash_region, ResourcesManager.getInstance().vbom)
+        splash = new Sprite(0, 0, ManagerResources.getInstance().splash_region, ManagerResources.getInstance().vbom)
         {
             @Override
             protected void preDraw(GLState pGLState, Camera pCamera)

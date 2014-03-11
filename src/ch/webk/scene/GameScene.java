@@ -10,10 +10,8 @@ import org.andengine.input.touch.TouchEvent;
 import ch.webk.base.CustomContactListener;
 import ch.webk.base.LevelLoader;
 import ch.webk.base.Logger;
-import ch.webk.base.ObjectManager;
-import ch.webk.base.ResourcesManager;
+import ch.webk.base.manager.ManagerObject;
 import ch.webk.base.object.PhysicObjectWithSprite;
-import ch.webk.custom.factories.CustomMethodFactory;
 import ch.webk.objects.Asteroid;
 import ch.webk.scene.SceneManager.SceneType;
 
@@ -27,7 +25,7 @@ public class GameScene extends BaseScene {
 	@Override
 	public void createScene() {
 		Logger.i(TAG,"createScene");
-		ObjectManager.setGameScene(this);
+		ManagerObject.setGameScene(this);
 	    createPhysics();
 	    LevelLoader.loadLevel(1);
 	}
@@ -52,9 +50,9 @@ public class GameScene extends BaseScene {
     
     private void createPhysics() {
     	Logger.i(TAG,"createPhysics");
-    	ObjectManager.setPhysicsWorld(new FixedStepPhysicsWorld(40, new Vector2(0,0), false)); 
-    	ObjectManager.getPhysicsWorld().setContactListener(new CustomContactListener());
-        registerUpdateHandler(ObjectManager.getPhysicsWorld());
+    	ManagerObject.setPhysicsWorld(new FixedStepPhysicsWorld(40, new Vector2(0,0), false)); 
+    	ManagerObject.getPhysicsWorld().setContactListener(new CustomContactListener());
+        registerUpdateHandler(ManagerObject.getPhysicsWorld());
     }
     
     
@@ -70,9 +68,8 @@ public class GameScene extends BaseScene {
     		clickPoint.set(pSceneTouchEvent.getX() / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT, pSceneTouchEvent.getY() / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
     		
     		float scale = 3 * new Random().nextFloat();
-    		PhysicObjectWithSprite levelObject = new Asteroid("asteroid_003", pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), PhysicsFactory.createFixtureDef(0.8f, 0, 0), BodyType.DynamicBody, ResourcesManager.getInstance().staticObjects.get("asteroid_003"), scale, scale);
+    		PhysicObjectWithSprite levelObject = new Asteroid("asteroid_003", pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), PhysicsFactory.createFixtureDef(0.8f, 0, 0), BodyType.DynamicBody, scale, scale);
     		levelObject.getBody().applyForce(new Vector2(-300*scale,0), levelObject.getBody().getWorldCenter());
-    		attachChild(levelObject.getSprite());
     	}
     	return super.onSceneTouchEvent(pSceneTouchEvent);
     }
@@ -85,15 +82,15 @@ public class GameScene extends BaseScene {
 	@Override
 	public void onVolUpKeyPressed() {
 		Logger.i(TAG,"onVolUpKeyPressed");
-		ObjectManager.getCamera().setZoomFactor(ObjectManager.getCamera().getZoomFactor()+0.005f);
+		ManagerObject.getCamera().setZoomFactor(ManagerObject.getCamera().getZoomFactor()+0.005f);
 	}
 
 	@Override
 	public void onVolDownKeyPressed() {
 		Logger.i(TAG,"onVolDownKeyPressed");
-		if (ObjectManager.getCamera().getZoomFactor() > 0.005f)
+		if (ManagerObject.getCamera().getZoomFactor() > 0.005f)
 		{	
-			ObjectManager.getCamera().setZoomFactor(ObjectManager.getCamera().getZoomFactor()-0.005f);
+			ManagerObject.getCamera().setZoomFactor(ManagerObject.getCamera().getZoomFactor()-0.005f);
 		}
 	}
 	
